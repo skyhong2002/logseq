@@ -118,7 +118,7 @@
       [group-index group-row-index row-index group row])))
 
 (defn get-columns [block data]
-  (->> (or (some-> (get-in block [:block/properties :view/table-cols])
+  (->> (or (some-> (get-in block [:block/properties :logseq.table.cols])
                    (str/split #", ?"))
            (map last-str (ffirst data)))
        (map (comp str/lower-case str/trim))))
@@ -294,7 +294,8 @@
 (rum/defc table-gradient-accent [{:keys [color]}]
   [:div.rounded-t.h-2.-ml-px.-mt-px.-mr-px 
    {:style {:grid-column "1 / -1" :order -999} 
-    :class (str "grad-bg-" color "-9")}])
+    :class (str "grad-bg-" color "-9")
+    :data-test-id "v2-table-gradient-accent"}])
 
 (rum/defc table-header-row [handle-cell-width-change cells {:keys [cell-col-map] :as opts}]
   [:<>
@@ -352,7 +353,7 @@
                                        :gap (when borders? BORDER_WIDTH) 
                                        :width (when table-overflow? total-table-width)}
                                :class (str (lsx 7) " " (lsx "border" 7))
-                               :data-grid-template-columns grid-template-columns
+                               :data-test-id "v2-table-container"
                                :on-pointer-leave #(set-cell-hover [])}
      children]))
 
